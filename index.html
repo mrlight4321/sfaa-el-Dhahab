@@ -128,14 +128,14 @@
 
     <script>
         // إعدادات GitHub الخاصة بك
-        const GITHUB_USERNAME = "mrlight4321";      // اسمك على جيت هب
-        const REPO_NAME = "sfaa-el-Dhahab";         // اسم المستودع بالاحرف الصحيحة
-        const FILE_PATH = "perfumes.json";          // ملف JSON الخارجي
-        const GITHUB_TOKEN = "ضع_التوكن_هنا";        // الصق الرمز هنا بين علامتي التنصيص
-        const ADMIN_PASSWORD = "alnada123";         // كلمة مرور المشرفين
+        const GITHUB_USERNAME = "mrlight4321"; // اسمك على جيت هب
+        const REPO_NAME = "sfaa-eldhb";      // اسم المستودع
+        const FILE_PATH = "perfumes.json";   // ملف JSON الخارجي الذي سيحفظ المنتجات
+        const GITHUB_TOKEN = "ضع_التوكن_الخاص_بك_هنا"; // ضع الرمز الذي استخرجته بين علامتي التنصيص
+        const ADMIN_PASSWORD = "alnada123";  // كلمة مرور المشرفين
 
         let perfumes = [];
-        let fileSha = ""; 
+        let fileSha = ""; // ضروري لتحديث الملفات عبر جيت هب API
 
         // جلب قائمة العطور من ملف JSON في المستودع
         async function fetchPerfumes() {
@@ -144,6 +144,7 @@
                 if (response.ok) {
                     perfumes = await response.json();
                 } else {
+                    // إذا لم يكن الملف موجوداً مسبقاً، ننشئ قائمة افتراضية
                     perfumes = [
                         { id: 8, title: "عطر صفاء الذهب (8)", image: "perfume8.jpg" },
                         { id: 9, title: "عطر صفاء الذهب (9)", image: "perfume9.jpg" },
@@ -161,7 +162,7 @@
         function renderPerfumes() {
             const container = document.getElementById('perfumes-container');
             if (perfumes.length === 0) {
-                container.innerHTML = '<div class="loading">لا توجد عطور متاحة حالياً في المعرض.</div>';
+                container.innerHTML = '<div class="loading">لا توجد عطور متاحة حالياً.</div>';
                 return;
             }
 
@@ -199,10 +200,11 @@
         async function deletePerfume(id) {
             if (!confirm('هل أنت متأكد من رغبتك في حذف هذا العطر نهائياً؟')) return;
 
+            // تصفية المنتجات وحذف العنصر المطلوب
             let updatedPerfumes = perfumes.filter(p => p.id !== id);
 
             try {
-                // 1. جلب الـ SHA الخاص بملف JSON الحالي
+                // 1. جلب الـ SHA الخاص بملف JSON الحالي (شرط أساسي لتعديل أي ملف في GitHub API)
                 let shaRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
                     headers: { "Authorization": `token ${GITHUB_TOKEN}` }
                 });
@@ -212,7 +214,7 @@
                     fileSha = fileData.sha;
                 }
 
-                // 2. إرسال البيانات المحدثة إلى GitHub
+                // 2. إرسال البيانات المحدثة إلى GitHub لتعديل الملف فوراً
                 let updateRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
                     method: "PUT",
                     headers: {
@@ -221,7 +223,7 @@
                     },
                     body: JSON.stringify({
                         message: `Delete perfume id ${id} by admin`,
-                        content: btoa(unescape(encodeURIComponent(JSON.stringify(updatedPerfumes, null, 2)))),
+                        content: btoa(unescape(encodeURIComponent(JSON.stringify(updatedPerfumes, null, 2)))), // تشفر الملف بصيغة Base64
                         sha: fileSha
                     })
                 });
@@ -229,7 +231,7 @@
                 if (updateRes.ok) {
                     perfumes = updatedPerfumes;
                     renderPerfumes();
-                    alert('تم حذف العطر وتحديث الموقع بنجاح! (سيظهر التعديل للزوار خلال ثوانٍ)');
+                    alert('تم حذف العطر وتحديث الموقع بنجاح! (سيظهر التعديل للزوار بعد ثوانٍ قليلة عند تحديث الصفحات)');
                 } else {
                     alert('فشل في حفظ التعديل على جيت هب، تأكد من صحة الـ Token.');
                 }
@@ -239,6 +241,7 @@
             }
         }
 
+        // تشغيل الجلب عند فتح الصفحة
         window.onload = fetchPerfumes;
     </script>
 </body>
