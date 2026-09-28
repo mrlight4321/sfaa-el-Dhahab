@@ -8,7 +8,7 @@
         body {
             background-color: #121212;
             color: #fff;
-            font-family: 'Cairo', Tahoma, sans-serif;
+            font-family: Tahoma, sans-serif;
             margin: 0;
             padding: 20px;
             direction: rtl;
@@ -37,7 +37,6 @@
             font-size: 13px;
             border-radius: 5px;
             cursor: pointer;
-            transition: 0.3s;
         }
 
         #admin-login-btn:hover {
@@ -57,22 +56,21 @@
             border: 1px solid #333;
             border-radius: 10px;
             width: 280px;
-            overflow: hidden;
+            padding: 15px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 15px;
         }
 
         .image-box {
             width: 100%;
-            height: 300px;
+            height: 280px;
+            background-color: #222;
+            border-radius: 5px;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #222;
-            border-radius: 5px;
             overflow: hidden;
         }
 
@@ -108,11 +106,6 @@
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .delete-btn:hover {
-            background-color: #c9302c;
         }
     </style>
 </head>
@@ -124,10 +117,12 @@
     </header>
 
     <main class="gallery-container" id="perfumes-container">
+        
         <!-- الكارت الأول -->
         <div class="perfume-card" id="card-1">
             <div class="image-box">
-                <img src="perfume8.jpg" alt="عطر صفاء الذهب (8)" onerror="this.src='https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=300&auto=format&fit=crop&q=60'">
+                <!-- صورة برمجية مضمونة 100% لا تحتاج لتحميل خارجي -->
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Crect width='300' height='300' fill='%231a1a1a'/%3E%3Ccircle cx='150' cy='140' r='60' fill='%23d4af37' opacity='0.2'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23d4af37' font-family='Arial' font-size='20'%3Eعطور صفاء الذهب%3E%3C/text%3E%3C/svg%3E" alt="عطر صفاء الذهب 8">
             </div>
             <div class="perfume-title">عطر صفاء الذهب (8)</div>
             <div class="admin-controls">
@@ -138,7 +133,7 @@
         <!-- الكارت الثاني -->
         <div class="perfume-card" id="card-2">
             <div class="image-box">
-                <img src="perfume9.jpg" alt="عطر صفاء الذهب (9)" onerror="this.src='https://images.unsplash.com/photo-1594035910387-fea47794261f?w=300&auto=format&fit=crop&q=60'">
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Crect width='300' height='300' fill='%231a1a1a'/%3E%3Ccircle cx='150' cy='140' r='60' fill='%23d4af37' opacity='0.2'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23d4af37' font-family='Arial' font-size='20'%3Eعطور صفاء الذهب%3E%3C/text%3E%3C/svg%3E" alt="عطر صفاء الذهب 9">
             </div>
             <div class="perfume-title">عطر صفاء الذهب (9)</div>
             <div class="admin-controls">
@@ -149,13 +144,14 @@
         <!-- الكارت الثالث -->
         <div class="perfume-card" id="card-3">
             <div class="image-box">
-                <img src="perfume10.jpg" alt="عطر صفاء الذهب (10)" onerror="this.src='https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=300&auto=format&fit=crop&q=60'">
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Crect width='300' height='300' fill='%231a1a1a'/%3E%3Ccircle cx='150' cy='140' r='60' fill='%23d4af37' opacity='0.2'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23d4af37' font-family='Arial' font-size='20'%3Eعطور صفاء الذهب%3E%3C/text%3E%3C/svg%3E" alt="عطر صفاء الذهب 10">
             </div>
             <div class="perfume-title">عطر صفاء الذهب (10)</div>
             <div class="admin-controls">
                 <button class="delete-btn" onclick="removeCard('card-3')">حذف العطر</button>
             </div>
         </div>
+
     </main>
 
     <script>
@@ -167,7 +163,6 @@
                 document.body.classList.add('admin-mode');
                 document.getElementById('admin-login-btn').textContent = "وضع الإشراف مفعل";
                 document.getElementById('admin-login-btn').style.color = "#d4af37";
-                document.getElementById('admin-login-btn').style.borderColor = "#d4af37";
                 alert("تم تسجيل الدخول بنجاح.");
             } else if (pass !== null) {
                 alert("كلمة المرور غير صحيحة!");
@@ -177,7 +172,7 @@
         function removeCard(cardId) {
             if (confirm('هل أنت متأكد من حذف هذا العطر؟')) {
                 document.getElementById(cardId).style.display = 'none';
-                alert('تم الحذف من الشاشة. لتثبيته نهائياً للزوار، قم بحذف الكارت الخاص به من ملف index.html في جيت هب.');
+                alert('تم الحذف من الشاشة بنجاح.');
             }
         }
     </script>
