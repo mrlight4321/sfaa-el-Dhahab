@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ صفاء الذهب | للعطور الفاخرة ✨</title>
+    <style>
+        :root {
+            --bg-black: #0b0b0b;
+            --card-black: #141414;
+            --gold: #d4af37;
+            --dark-gold: #aa820a;
+            --text-light: #f5f5f5;
+            --text-gray: #a0a0a0;
+            --header-bg: linear-gradient(135deg, #000, #161616);
+        }
+        body {
+            font-family: 'Tahoma', sans-serif;
+            background-color: var(--bg-black);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+            transition: 0.3s;
+        }
+        
+        header {
+            background: var(--header-bg);
+            color: var(--gold);
+            padding: 35px 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--gold);
+            transition: 0.3s;
+        }
+        header h1 { margin: 0; font-size: 36px; letter-spacing: 2px; color: var(--gold); }
+        header p { color: var(--text-gray); font-size: 14px; margin-top: 8px; }
+
+        nav {
+            background: #111;
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+        nav button {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-family: 'Tahoma', sans-serif;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 8px 22px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        nav button:hover, nav button.active {
+            background-color: var(--gold);
+            color: var(--bg-black);
+        }
+
+        .search-container {
+            margin: 25px auto;
+            text-align: center;
+            max-width: 550px;
+            padding: 0 15px;
+        }
+        .search-container input {
+            width: 100%;
+            padding: 14px 20px;
+            background: #141414;
+            border: 1px solid #333;
+            border-radius: 30px;
+            color: var(--text-light);
+            font-size: 15px;
+            outline: none;
+            box-sizing: border-box;
+            transition: 0.3s;
+            text-align: center;
+        }
+        .search-container input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto 40px;
+            padding: 30px;
+            background: var(--card-black);
+            border-radius: 12px;
+            border: 1px solid #222;
+            display: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .container.active-page {
+            display: block;
+        }
+        .section-title {
+            font-size: 22px;
+            color: var(--gold);
+            border-right: 4px solid var(--gold);
+            padding-right: 12px;
+            margin-bottom: 20px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: #0f0f0f;
+            border: 1px solid #222;
+            border-radius: 10px;
+            padding: 6px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+            transition: 0.3s;
+            overflow: hidden;
+        }
+        .card:hover {
+            border-color: var(--dark-gold);
+            transform: translateY(-4px);
+        }
+        .card img, .card video {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 6px;
+            background: #000;
+            display: block;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .card img:hover {
+            opacity: 0.9;
+        }
+
+        /* نافذة تكبير الصورة (Lightbox) */
+        #lightbox-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #lightbox-modal img {
+            max-width: 90%;
+            max-height: 80vh;
+            border: 2px solid var(--gold);
+            border-radius: 8px;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+        }
+        #lightbox-close {
+            margin-top: 15px;
+            background-color: var(--gold);
+            color: var(--bg-black);
+            border: none;
+            padding: 8px 25px;
+            font-weight: bold;
+            font-size: 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        #lightbox-close:hover {
+            background-color: var(--dark-gold);
+            color: white;
+        }
+
+        .global-whatsapp-section {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px dashed #333;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+        .global-whatsapp-btn {
+            background-color: #25d366;
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            width: 100%;
+            max-width: 350px;
+            box-sizing: border-box;
+        }
+        .global-whatsapp-btn:hover {
+            background-color: #20ba5a;
+            transform: scale(1.03);
+        }
+
+        .admin-product-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #151515;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border: 1px solid #333;
+        }
+        .admin-product-row span {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        .admin-delete-item-btn {
+            background: #c0392b;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .admin-delete-item-btn:hover { background: #a93226; }
+
+        .admin-box-card {
+            background: #0d0d0d;
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+        }
+        .admin-box-card h3 {
+            color: var(--gold);
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        input, textarea, select {
+            width: 90%;
+            padding: 12px;
+            margin: 10px auto;
+            border-radius: 6px;
+            border: 1px solid #333;
+            background: #111;
+            color: white;
+            font-family: 'Tahoma', sans-serif;
+            display: block;
+            font-size: 14px;
+        }
+        input:focus, textarea:focus, select:focus { border-color: var(--gold); outline: none; }
+        
+        .file-upload-label {
+            display: block;
+            width: 90%;
+            padding: 14px;
+            margin: 10px auto;
+            background: #1a1a1a;
+            border: 1px dashed var(--gold);
+            color: var(--gold);
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .file-upload-label:hover { background: #222; }
+
+        .action-btn {
+            background-color: var(--gold);
+            color: var(--bg-black);
+            border: none;
+            font-weight: bold;
+            padding: 11px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: block;
+            margin: 15px auto;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+        .action-btn:hover { background-color: var(--dark-gold); color: white; }
+
+        .feedback-box {
+            background: #111;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-right: 3px solid var(--gold);
+            text-align: right;
+            border: 1px solid #222;
+            position: relative;
+        }
+        .feedback-box h5 { margin: 0 0 5px; color: var(--gold); font-size: 15px; }
+        .feedback-box p { margin: 0; color: var(--text-gray); font-size: 13px; }
+    </style>
+</head>
+<body>
+
+    <header id="mainHeader">
+        <h1 id="headerTitle">✨ صفاء الذهب ✨</h1>
+        <p id="headerDesc">لعشاق الفخامة والروائح الشرقية والغربية المميزة</p>
+    </header>
+
+    <nav>
+        <button onclick="showPage('home')" id="btn-home" class="active">الرئيسية</button>
+        <button onclick="showPage('feedback')" id="btn-feedback">آراء العملاء</button>
+    </nav>
+
+    <div class="search-container" id="search-section">
+        <input type="text" id="searchInput" placeholder="🔍 ابحث في المعرض..." onkeyup="searchProducts()">
+    </div>
+
+    <!-- نافذة تكبير الصورة (Lightbox Modal) -->
+    <div id="lightbox-modal" onclick="closeLightbox()">
+        <img id="lightbox-img" src="" alt="صورة مكبرة">
+        <button id="lightbox-close" onclick="closeLightbox()">إغلاق ✕</button>
+    </div>
+
+    <!-- 1. الصفحة الرئيسية (معرض الصور والفيديوهات) -->
+    <div id="page-home" class="container active-page">
+        <div class="section-title">معرض عطور صفاء الذهب الفاخرة</div>
+        <div class="products-grid" id="public-products">
+            
+            <div class="card" id="card-amber">
+                <img src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400" alt="عطر" onclick="openLightbox(this.src)">
+            </div>
+            <div class="card" id="card-musk">
+                <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400" alt="عطر" onclick="openLightbox(this.src)">
+            </div>
+            <div class="card" id="card-gift-box">
+                <img src="https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=400" alt="بوكس هدايا" onclick="openLightbox(this.src)">
+            </div>
+            <div class="card" id="card-amouage">
+                <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400" alt="عطر أمواج" onclick="openLightbox(this.src)">
+            </div>
+
+            <!-- بوابة المشرفين السرية -->
+            <div class="card secret-admin-result" id="secretAdminCard" style="display: none; border: 2px dashed var(--gold); background: #111; padding: 20px;">
+                <h4 style="color: var(--gold); margin-top: 0;">🔑 بوابة المشرفين السرية</h4>
+                <p style="color: var(--text-gray); font-size: 12px;">تم العثور على البوابة المخصصة للإدارة.</p>
+                <button class="action-btn" onclick="showPage('admin')">دخول لوحة التحكم</button>
+            </div>
+        </div>
+
+        <div class="global-whatsapp-section">
+            <p style="color: var(--gold); margin: 0; font-size: 15px; font-weight: bold;">💬 تواصل معنا واطلب عطورك الآن عبر الواتساب:</p>
+            <a href="https://wa.me/201121130014?text=مرحباً، أهتم بالاستفسار وطلب عطور من معرض صفاء الذهب" target="_blank" class="global-whatsapp-btn">
+                <span>📱 تواصل عبر الرقم الأول: 01121130014</span>
+            </a>
+            <a href="https://wa.me/201112720021?text=مرحباً، أهتم بالاستفسار وطلب عطور من معرض صفاء الذهب" target="_blank" class="global-whatsapp-btn">
+                <span>📱 تواصل عبر الرقم الثاني: 01112720021</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- 2. صفحة آراء العملاء -->
+    <div id="page-feedback" class="container">
+        <div class="section-title">آراء العملاء الكرام</div>
+        <p style="color: var(--text-gray);">نعتز جداً برأيك في عطور صفاء الذهب:</p>
+        
+        <div style="background: #0f0f0f; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #222;">
+            <input type="text" id="fb-name" placeholder="اسمك الكريم">
+            <textarea id="fb-text" placeholder="اكتب رأيك بكل صراحة في البرفيوم أو التجربة..."></textarea>
+            <button class="action-btn" onclick="addFeedback()">إرسال الرأي</button>
+        </div>
+
+        <div id="feedback-list">
+            <!-- سيتم تحميل آراء العملاء الجديدة هنا تلقائياً -->
+        </div>
+    </div>
+
+    <!-- 3. لوحة التحكم -->
+    <div id="page-admin" class="container">
+        <div id="login-box" class="admin-box-card">
+            <h3>تسجيل دخول المشرفين</h3>
+            <input type="text" id="admin-user" placeholder="اسم المشرف">
+            <input type="password" id="admin-pass" placeholder="كلمة المرور">
+            <button class="action-btn" onclick="checkCredentials()">دخول</button>
+        </div>
+
+        <div id="admin-panel" style="display: none;">
+            <div class="section-title" style="color: var(--gold);">⚙️ لوحة تحكم المشرف</div>
+            
+            <div style="background: #111; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+                <h4 style="color: var(--gold); margin-top:0;">💎 إضافة صور وفيديوهات متعددة (للمعرض)</h4>
+                
+                <label for="p-files" class="file-upload-label" id="file-label-text">📁 اضغط لاختيار وإرفاق الصور أو الفيديوهات دفعة واحدة</label>
+                <input type="file" id="p-files" accept="image/*,video/*" multiple style="display: none;" onchange="handleMultipleFilesUpload(event)">
+                
+                <button class="action-btn" onclick="addMultipleProducts()">نشر الملفات المختارة في المعرض فوراً</button>
+            </div>
+
+            <div style="background: #111; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+                <h4 style="color: var(--gold); margin-top:0;">🗑️ إدارة وحذف محتوى المعرض</h4>
+                <div id="admin-products-manager"></div>
+            </div>
+
+            <div style="background: #111; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+                <h4 style="color: var(--gold); margin-top:0;">🎨 تغيير شكل ووصف الهيدر</h4>
+                <input type="text" id="custom-title" placeholder="عنوان الموقع الجديد">
+                <input type="text" id="custom-desc" placeholder="الوصف تحت العنوان">
+                <select id="custom-theme" style="width: 90%; padding: 12px; margin: 10px auto; border-radius: 6px; background: #111; color: white; border: 1px solid #333; display: block;">
+                    <option value="default">الاستايل الملكي (أسود وذهبي)</option>
+                    <option value="royal-blue">الاستايل الملكي الأزرق الداكن</option>
+                    <option value="burgundy">الاستايل النبيتي الفاخر</option>
+                </select>
+                <button class="action-btn" onclick="updateSiteStyle()">حفظ وتطبيق الشكل الجديد</button>
+            </div>
+
+            <button class="action-btn" style="background-color: #c0392b; color: white;" onclick="logoutAdmin()">تسجيل خروج</button>
+        </div>
+    </div>
+
+    <script>
+        let processedFilesArray = [];
+
+        function openLightbox(imgSrc) {
+            let modal = document.getElementById('lightbox-modal');
+            let modalImg = document.getElementById('lightbox-img');
+            modal.style.display = "flex";
+            modalImg.src = imgSrc;
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').style.display = "none";
+        }
+
+        function handleMultipleFilesUpload(event) {
+            let files = event.target.files;
+            if (files && files.length > 0) {
+                processedFilesArray = [];
+                let loadedCount = 0;
+                document.getElementById('file-label-text').innerText = `⏳ جاري معالجة وضغط (${files.length}) ملف، انتظر قليلاً...`;
+
+                Array.from(files).forEach((file) => {
+                    let reader = new FileReader();
+                    reader.onload = function(e) {
+                        let fileData = e.target.result;
+                        let isVideo = file.type.startsWith('video');
+
+                        if (!isVideo) {
+                            let img = new Image();
+                            img.onload = function() {
+                                let canvas = document.createElement('canvas');
+                                let ctx = canvas.getContext('2d');
+                                
+                                let MAX_WIDTH = 700;
+                                let MAX_HEIGHT = 700;
+                                let width = img.width;
+                                let height = img.height;
+
+                                if (width > height) {
+                                    if (width > MAX_WIDTH) {
+                                        height *= MAX_WIDTH / width;
+                                        width = MAX_WIDTH;
+                                    }
+                                } else {
+                                    if (height > MAX_HEIGHT) {
+                                        width *= MAX_HEIGHT / height;
+                                        height = MAX_HEIGHT;
+                                    }
+                                }
+
+                                canvas.width = width;
+                                canvas.height = height;
+                                ctx.drawImage(img, 0, 0, width, height);
+                                
+                                let compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                                processedFilesArray.push({ type: 'image', src: compressedDataUrl });
+                                
+                                checkLoadingComplete(files.length);
+                            }
+                            img.src = fileData;
+                        } else {
+                            processedFilesArray.push({ type: 'video', src: fileData });
+                            checkLoadingComplete(files.length);
+                        }
+                    }
+                    reader.readAsDataURL(file);
+                });
+            }
+        }
+
+        function checkLoadingComplete(totalFiles) {
+            let loadedCount = processedFilesArray.length;
+            if(loadedCount === totalFiles) {
+                document.getElementById('file-label-text').innerText = `✅ تمت معالجة (${totalFiles}) ملف بنجاح وجاهزة للنشر!`;
+            }
+        }
+
+        function showPage(pageName) {
+            document.getElementById('page-home').classList.remove('active-page');
+            document.getElementById('page-feedback').classList.remove('active-page');
+            document.getElementById('page-admin').classList.remove('active-page');
+
+            document.getElementById('btn-home').classList.remove('active');
+            document.getElementById('btn-feedback').classList.remove('active');
+
+            document.getElementById('page-' + pageName).classList.add('active-page');
+            
+            if(pageName === 'home') {
+                document.getElementById('search-section').style.display = 'block';
+                document.getElementById('btn-home').classList.add('active');
+            } else {
+                document.getElementById('search-section').style.display = 'none';
+                if(pageName === 'feedback') document.getElementById('btn-feedback').classList.add('active');
+            }
+        }
+
+        function searchProducts() {
+            let input = document.getElementById('searchInput').value.trim();
+            let cards = document.querySelectorAll('#public-products .card:not(.secret-admin-result)');
+            let secretCard = document.getElementById('secretAdminCard');
+
+            if (input === '123456789') {
+                cards.forEach(card => card.style.display = "none");
+                secretCard.style.display = "block";
+                return;
+            } else {
+                secretCard.style.display = "none";
+            }
+
+            cards.forEach(card => {
+                if (card.id.includes(input.toLowerCase())) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        function checkCredentials() {
+            let user = document.getElementById('admin-user').value.trim();
+            let pass = document.getElementById('admin-pass').value.trim();
+            
+            if (pass === 'اشراف صفاء الدهب' && user !== '') {
+                localStorage.setItem("isAdminLoggedIn", "true");
+                activateAdminMode();
+                alert('أهلاً بك يا مشرف، تم تفعيل لوحة التحكم والإدارة!');
+            } else {
+                alert('كلمة المرور غير صحيحة! (الباسورد هو: اشراف صفاء الدهب)');
+            }
+        }
+
+        function activateAdminMode() {
+            document.getElementById('login-box').style.display = 'none';
+            document.getElementById('admin-panel').style.display = 'block';
+            populateAdminManager();
+        }
+
+        function populateAdminManager() {
+            let managerContainer = document.getElementById('admin-products-manager');
+            managerContainer.innerHTML = '';
+            
+            let cards = document.querySelectorAll('#public-products .card:not(.secret-admin-result)');
+            if(cards.length === 0) {
+                managerContainer.innerHTML = '<p style="color:var(--text-gray); text-align:center;">لا توجد عناصر مضافة حالياً.</p>';
+                return;
+            }
+
+            cards.forEach((card, index) => {
+                let cardId = card.id;
+                let isVid = card.querySelector('video') !== null;
+                let row = document.createElement('div');
+                row.className = 'admin-product-row';
+                row.innerHTML = `
+                    <span>${isVid ? '🎬 فيديو' : '🖼️ صورة'} عطر رقم (${index + 1})</span>
+                    <button class="admin-delete-item-btn" onclick="deleteProduct('${cardId}')">حذف 🗑️</button>
+                `;
+                managerContainer.appendChild(row);
+            });
+        }
+
+        function addFeedback() {
+            let name = document.getElementById('fb-name').value.trim();
+            let text = document.getElementById('fb-text').value.trim();
+
+            if(!name || !text) {
+                alert("الرجاء كتابة اسمك ورأيك أولاً!");
+                return;
+            }
+
+            try {
+                let feedbacks = JSON.parse(localStorage.getItem("customerFeedbacks") || "[]");
+                let newFeedback = { id: Date.now(), name: name, text: text };
+                feedbacks.unshift(newFeedback);
+                localStorage.setItem("customerFeedbacks", JSON.stringify(feedbacks));
+
+                document.getElementById('fb-name').value = '';
+                document.getElementById('fb-text').value = '';
+
+                loadFeedbacks();
+                alert("تم إرسال ونشر رأيك بنجاح!");
+            } catch (e) {
+                alert("حدث خطأ في الحفظ، مساحة التخزين ممتلئة!");
+            }
+        }
+
+        function loadFeedbacks() {
+            let feedbackList = document.getElementById('feedback-list');
+            let feedbacks = JSON.parse(localStorage.getItem("customerFeedbacks") || "[]");
+
+            let html = "";
+
+            if(feedbacks.length === 0) {
+                feedbackList.innerHTML = '<p style="color: var(--text-gray); text-align: center; padding: 20px;">لا توجد آراء مضافة حالياً. كن أول من يشاركنا رأيه!</p>';
+                return;
+            }
+
+            feedbacks.forEach(fb => {
+                html += `
+                    <div class="feedback-box" id="fb-${fb.id}">
+                        <h5>${escapeHtml(fb.name)}</h5>
+                        <p>${escapeHtml(fb.text)}</p>
+                        ${localStorage.getItem("isAdminLoggedIn") === "true" ? `<button class="admin-delete-item-btn" style="margin-top:8px;" onclick="deleteFeedback(${fb.id})">حذف التعليق 🗑️</button>` : ''}
+                    </div>
+                `;
+            });
+
+            feedbackList.innerHTML = html;
+        }
+
+        function deleteFeedback(id) {
+            if(confirm("هل تريد حذف هذا التعليق؟")) {
+                let feedbacks = JSON.parse(localStorage.getItem("customerFeedbacks") || "[]");
+                feedbacks = feedbacks.filter(fb => fb.id !== id);
+                localStorage.setItem("customerFeedbacks", JSON.stringify(feedbacks));
+                loadFeedbacks();
+            }
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        window.onload = function() {
+            let savedProducts = localStorage.getItem("myProductsHTML");
+            if (savedProducts) {
+                document.getElementById("public-products").insertAdjacentHTML('afterbegin', savedProducts);
+            }
+
+            let deletedItems = JSON.parse(localStorage.getItem("deletedItems") || "[]");
+            deletedItems.forEach(id => {
+                let el = document.getElementById(id);
+                if(el) el.remove();
+            });
+
+            let savedTitle = localStorage.getItem("siteTitle");
+            if(savedTitle) document.getElementById("headerTitle").innerText = savedTitle;
+
+            let savedDesc = localStorage.getItem("siteDesc");
+            if(savedDesc) document.getElementById("headerDesc").innerText = savedDesc;
+
+            let savedTheme = localStorage.getItem("siteTheme");
+            if(savedTheme) applyThemeStyle(savedTheme);
+
+            loadFeedbacks();
+
+            if(localStorage.getItem("isAdminLoggedIn") === "true") {
+                activateAdminMode();
+            }
+        }
+
+        function logoutAdmin() {
+            localStorage.removeItem("isAdminLoggedIn");
+            location.reload();
+        }
+
+        function deleteProduct(cardId) {
+            if(confirm('هل أنت متأكد من حذف هذا العنصر نهائياً؟')) {
+                let card = document.getElementById(cardId);
+                if(card) {
+                    card.remove();
+                    let deletedItems = JSON.parse(localStorage.getItem("deletedItems") || "[]");
+                    if(!deletedItems.includes(cardId)) {
+                        deletedItems.push(cardId);
+                    }
+                    localStorage.setItem("deletedItems", JSON.stringify(deletedItems));
+                    
+                    let customCardsHTML = "";
+                    document.querySelectorAll('#public-products .card[id^="card-custom-"]').forEach(c => {
+                        customCardsHTML += c.outerHTML;
+                    });
+                    localStorage.setItem("myProductsHTML", customCardsHTML);
+
+                    populateAdminManager();
+                    alert('تم حذف العنصر بنجاح!');
+                }
+            }
+        }
+
+        function addMultipleProducts() {
+            if(processedFilesArray.length === 0) {
+                alert("الرجاء اختيار وإرفاق الصور أو الفيديوهات أولاً!");
+                return;
+            }
+
+            let newCardsHtml = "";
+            processedFilesArray.forEach((item, i) => {
+                let uniqueId = 'card-custom-' + Date.now() + '-' + i;
+                if(item.type === 'image') {
+                    newCardsHtml += `
+                        <div class="card" id="${uniqueId}">
+                            <img src="${item.src}" alt="عطر" onclick="openLightbox(this.src)">
+                        </div>
+                    `;
+                } else {
+                    newCardsHtml += `
+                        <div class="card" id="${uniqueId}">
+                            <video src="${item.src}" controls preload="metadata"></video>
+                        </div>
+                    `;
+                }
+            });
+
+            try {
+                let currentHTML = localStorage.getItem("myProductsHTML") || "";
+                localStorage.setItem("myProductsHTML", currentHTML + newCardsHtml);
+
+                alert(`تم إضافة ونشر (${processedFilesArray.length}) عنصر في المعرض بنجاح!`);
+                location.reload();
+            } catch (error) {
+                alert("⚠️ عذراً، مساحة التخزين في المتصفح ممتلئة بسبب حجم الملفات (خصوصاً الفيديوهات الكبيرة). جرب تقليل عدد الملفات المرفوعة دفعة واحدة.");
+            }
+        }
+
+        function updateSiteStyle() {
+            let newTitle = document.getElementById("custom-title").value.trim();
+            let newDesc = document.getElementById("custom-desc").value.trim();
+            let selectedTheme = document.getElementById("custom-theme").value;
+
+            if(newTitle) {
+                localStorage.setItem("siteTitle", newTitle);
+                document.getElementById("headerTitle").innerText = newTitle;
+            }
+            if(newDesc) {
+                localStorage.setItem("siteDesc", newDesc);
+                document.getElementById("headerDesc").innerText = newDesc;
+            }
+
+            localStorage.setItem("siteTheme", selectedTheme);
+            applyThemeStyle(selectedTheme);
+
+            alert("تم تحديث وتغيير شكل الصفحة بنجاح!");
+        }
+
+        function applyThemeStyle(theme) {
+            let header = document.getElementById("mainHeader");
+            if(theme === 'royal-blue') {
+                header.style.background = "linear-gradient(135deg, #020b1c, #0a192f)";
+            } else if(theme === 'burgundy') {
+                header.style.background = "linear-gradient(135deg, #1c0205, #2f0a0e)";
+            } else {
+                header.style.background = "linear-gradient(135deg, #000, #161616)";
+            }
+        }
+    </script>
+</body>
+</html>
