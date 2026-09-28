@@ -3,132 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معرض عطور صفاء الذهب - المنصة الرسمية</title>
+    <title>معرض عطور صفاء الذهب</title>
     <style>
-        :root {
-            --primary-gold: #d4af37;
-            --dark-bg: #121212;
-            --card-bg: #1a1a1a;
-            --border-color: #333;
-            --text-color: #ffffff;
-            --danger-color: #a02622;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         body {
-            background-color: var(--dark-bg);
-            color: var(--text-color);
-            direction: rtl;
+            background-color: #121212;
+            color: #fff;
+            font-family: Tahoma, sans-serif;
+            margin: 0;
             padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            direction: rtl;
         }
 
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--primary-gold);
+            border-bottom: 2px solid #d4af37;
             padding-bottom: 15px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
-        .logo-area h1 {
-            color: var(--primary-gold);
-            font-size: 28px;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
-        .logo-area p {
-            color: #888;
-            font-size: 13px;
-            margin-top: 5px;
-        }
-
-        .admin-panel-control {
-            display: flex;
-            gap: 10px;
-            align-items: center;
+        header h1 {
+            color: #d4af37;
+            font-size: 24px;
+            margin: 0;
         }
 
         #admin-login-btn {
             background-color: transparent;
-            color: var(--primary-gold);
-            border: 1px solid var(--primary-gold);
-            padding: 8px 16px;
-            font-size: 14px;
-            border-radius: 6px;
+            color: #888;
+            border: 1px dashed #555;
+            padding: 6px 12px;
+            font-size: 13px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
 
         #admin-login-btn:hover {
-            background-color: var(--primary-gold);
-            color: var(--dark-bg);
-        }
-
-        main {
-            flex: 1;
-        }
-
-        .welcome-banner {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .welcome-banner h2 {
-            color: var(--primary-gold);
-            font-size: 22px;
-            margin-bottom: 8px;
-        }
-
-        .welcome-banner p {
-            color: #aaa;
-            font-size: 14px;
+            color: #d4af37;
+            border-color: #d4af37;
         }
 
         .gallery-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 10px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .perfume-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            width: 280px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            align-items: center;
         }
 
-        .perfume-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-gold);
-        }
-
+        /* الشكل القديم تماماً (صندوق رمادي غامق) */
         .image-box {
             width: 100%;
-            height: 260px;
-            background-color: #1f1f1f;
+            height: 280px;
+            background-color: #222;
+            border-radius: 5px;
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
             overflow: hidden;
         }
 
@@ -138,47 +81,17 @@
             object-fit: cover;
         }
 
-        .badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: var(--primary-gold);
-            border: 1px solid var(--primary-gold);
-            padding: 4px 10px;
-            font-size: 11px;
-            border-radius: 20px;
-        }
-
-        .card-content {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            justify-content: space-between;
-        }
-
         .perfume-title {
-            color: var(--primary-gold);
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 10px;
+            color: #d4af37;
+            font-size: 18px;
+            margin: 15px 0 5px 0;
             text-align: center;
-        }
-
-        .perfume-desc {
-            color: #bbb;
-            font-size: 13px;
-            text-align: center;
-            margin-bottom: 15px;
-            line-height: 1.5;
         }
 
         .admin-controls {
             display: none;
+            width: 100%;
             margin-top: 15px;
-            border-top: 1px dashed #444;
-            padding-top: 12px;
         }
 
         body.admin-mode .admin-controls {
@@ -187,153 +100,81 @@
 
         .delete-btn {
             width: 100%;
-            background-color: var(--danger-color);
+            background-color: #a02622;
             color: white;
             border: none;
             padding: 10px;
-            border-radius: 6px;
+            border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 13px;
-            transition: background-color 0.3s;
-        }
-
-        .delete-btn:hover {
-            background-color: #c9302c;
-        }
-
-        footer {
-            text-align: center;
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-            margin-top: 40px;
-            color: #777;
-            font-size: 13px;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-area">
-            <h1>عطور صفاء الذهب</h1>
-            <p>الفخامة والتميز في عالم العطور الشرقية والفرنسية</p>
-        </div>
-        <div class="admin-panel-control">
-            <button id="admin-login-btn" onclick="toggleAdminMode()">دخول المشرفين</button>
-        </div>
+        <h1>معرض عطور صفاء الذهب</h1>
+        <button id="admin-login-btn" onclick="openAdminMode()">دخول المشرفين</button>
     </header>
 
-    <main>
-        <div class="welcome-banner">
-            <h2>تشكيلة العطور الفاخرة</h2>
-            <p>تصفح أحدث إطلاقات عطور صفاء الذهب المصنوعة بعناية فائقة</p>
+    <main class="gallery-container" id="perfumes-container">
+        
+        <!-- الكارت الأول -->
+        <div class="perfume-card" id="card-1">
+            <div class="image-box">
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect width='100%25' height='100%25' fill='%23222222'/%3E%3C/svg%3E" alt="عطر صفاء الذهب 10">
+            </div>
+            <div class="perfume-title">عطر صفاء الذهب (10)</div>
+            <div class="admin-controls">
+                <button class="delete-btn" onclick="removeCard('card-1')">حذف العطر</button>
+            </div>
         </div>
 
-        <div class="gallery-container" id="perfumes-container">
-            
-            <!-- العطر الأول -->
-            <div class="perfume-card" id="card-1">
-                <div class="image-box">
-                    <span class="badge">مميز</span>
-                    <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect width='100%25' height='100%25' fill='%231a1a1a'/%3E%3Ccircle cx='150' cy='140' r='55' fill='none' stroke='%23d4af37' stroke-width='3'/%3E%3Cpath d='M135 105 h30 v25 h-30 z' fill='%23d4af37'/%3E%3Ctext x='50%25' y='230' dominant-baseline='middle' text-anchor='middle' fill='%23d4af37' font-family='Tahoma' font-size='14'%3Eعطر رقم 8%3E%3C/text%3E%3C/svg%3E" alt="عطر صفاء الذهب 8">
-                </div>
-                <div class="card-content">
-                    <div>
-                        <div class="perfume-title">عطر صفاء الذهب (8)</div>
-                        <div class="perfume-desc">تركيبة عطرية ساحرة تجمع بين عبق العود الفاخر ولمسات الرمان الدافئة.</div>
-                    </div>
-                    <div class="admin-controls">
-                        <button class="delete-btn" onclick="removeCard('card-1')">حذف العطر من العرض</button>
-                    </div>
-                </div>
+        <!-- الكارت الثاني -->
+        <div class="perfume-card" id="card-2">
+            <div class="image-box">
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect width='100%25' height='100%25' fill='%23222222'/%3E%3C/svg%3E" alt="عطر صفاء الذهب 9">
             </div>
-
-            <!-- العطر الثاني -->
-            <div class="perfume-card" id="card-2">
-                <div class="image-box">
-                    <span class="badge">فاخر</span>
-                    <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect width='100%25' height='100%25' fill='%231a1a1a'/%3E%3Ccircle cx='150' cy='140' r='55' fill='none' stroke='%23d4af37' stroke-width='3'/%3E%3Cpath d='M135 105 h30 v25 h-30 z' fill='%23d4af37'/%3E%3Ctext x='50%25' y='230' dominant-baseline='middle' text-anchor='middle' fill='%23d4af37' font-family='Tahoma' font-size='14'%3Eعطر رقم 9%3E%3C/text%3E%3C/svg%3E" alt="عطر صفاء الذهب 9">
-                </div>
-                <div class="card-content">
-                    <div>
-                        <div class="perfume-title">عطر صفاء الذهب (9)</div>
-                        <div class="perfume-desc">مزيج متناغم من النفحات الخشبية والعنبر لتجربة عطرية لا تُنسى.</div>
-                    </div>
-                    <div class="admin-controls">
-                        <button class="delete-btn" onclick="removeCard('card-2')">حذف العطر من العرض</button>
-                    </div>
-                </div>
+            <div class="perfume-title">عطر صفاء الذهب (9)</div>
+            <div class="admin-controls">
+                <button class="delete-btn" onclick="removeCard('card-2')">حذف العطر</button>
             </div>
-
-            <!-- العطر الثالث -->
-            <div class="perfume-card" id="card-3">
-                <div class="image-box">
-                    <span class="badge">حصري</span>
-                    <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect width='100%25' height='100%25' fill='%231a1a1a'/%3E%3Ccircle cx='150' cy='140' r='55' fill='none' stroke='%23d4af37' stroke-width='3'/%3E%3Cpath d='M135 105 h30 v25 h-30 z' fill='%23d4af37'/%3E%3Ctext x='50%25' y='230' dominant-baseline='middle' text-anchor='middle' fill='%23d4af37' font-family='Tahoma' font-size='14'%3Eعطر رقم 10%3E%3C/text%3E%3C/svg%3E" alt="عطر صفاء الذهب 10">
-                </div>
-                <div class="card-content">
-                    <div>
-                        <div class="perfume-title">عطر صفاء الذهب (10)</div>
-                        <div class="perfume-desc">إصدار خاص يتميز بثبات عالي ورائحة تنبض بالأناقة والجاذبية المطلقة.</div>
-                    </div>
-                    <div class="admin-controls">
-                        <button class="delete-btn" onclick="removeCard('card-3')">حذف العطر من العرض</button>
-                    </div>
-                </div>
-            </div>
-
         </div>
+
+        <!-- الكارت الثالث -->
+        <div class="perfume-card" id="card-3">
+            <div class="image-box">
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect width='100%25' height='100%25' fill='%23222222'/%3E%3C/svg%3E" alt="عطر صفاء الذهب 8">
+            </div>
+            <div class="perfume-title">عطر صفاء الذهب (8)</div>
+            <div class="admin-controls">
+                <button class="delete-btn" onclick="removeCard('card-3')">حذف العطر</button>
+            </div>
+        </div>
+
     </main>
-
-    <footer>
-        <p>جميع الحقوق محفوظة &copy; 2026 - معرض عطور صفاء الذهب</p>
-    </footer>
 
     <script>
         const ADMIN_PASSWORD = "اشراف صفاء الدهب";
-        let isAdminLoggedIn = false;
 
-        function toggleAdminMode() {
-            if (!isAdminLoggedIn) {
-                let passwordInput = prompt("الرجاء إدخال كلمة مرور المشرف:");
-                if (passwordInput === ADMIN_PASSWORD) {
-                    isAdminLoggedIn = true;
-                    document.body.classList.add('admin-mode');
-                    document.getElementById('admin-login-btn').textContent = "وضع الإشراف (نشط)";
-                    document.getElementById('admin-login-btn').style.backgroundColor = "var(--primary-gold)";
-                    document.getElementById('admin-login-btn').style.color = "var(--dark-bg)";
-                    alert("تم تفعيل وضع المشرف بنجاح! يمكنك الآن إدارة المعرض.");
-                } else if (passwordInput !== null) {
-                    alert("كلمة المرور غير صحيحة، يحاول استخدام كلمة المرور الصحيحة.");
-                }
-            } else {
-                isAdminLoggedIn = false;
-                document.body.classList.remove('admin-mode');
-                document.getElementById('admin-login-btn').textContent = "دخول المشرفين";
-                document.getElementById('admin-login-btn').style.backgroundColor = "transparent";
-                document.getElementById('admin-login-btn').style.color = "var(--primary-gold)";
-                alert("تم تسجيل الخروج من وضع المشرف.");
+        function openAdminMode() {
+            let pass = prompt("الرجاء إدخال كلمة مرور المشرف:");
+            if (pass === ADMIN_PASSWORD) {
+                document.body.classList.add('admin-mode');
+                document.getElementById('admin-login-btn').textContent = "وضع الإشراف مفعل";
+                document.getElementById('admin-login-btn').style.color = "#d4af37";
+                alert("تم تسجيل الدخول بنجاح.");
+            } else if (pass !== null) {
+                alert("كلمة المرور غير صحيحة!");
             }
         }
 
         function removeCard(cardId) {
-            if (confirm('هل أنت متأكد من رغبتك في حذف هذا العطر من المعرض؟')) {
-                let targetCard = document.getElementById(cardId);
-                if (targetCard) {
-                    targetCard.style.transition = "all 0.5s ease";
-                    targetCard.style.opacity = "0";
-                    targetCard.style.transform = "scale(0.8)";
-                    setTimeout(() => {
-                        targetCard.style.display = 'none';
-                    }, 500);
-                    alert('تم حذف العطر بنجاح.');
-                }
+            if (confirm('هل أنت متأكد من حذف هذا العطر؟')) {
+                document.getElementById(cardId).style.display = 'none';
+                alert('تم الحذف من الشاشة بنجاح.');
             }
         }
-
-        // رسالة ترحيب برمجية في الكونسول للتأكد من عمل السكريبت بكفاءة
-        console.log("تم تحميل منصة عطور صفاء الذهب بنجاح وتعمل بكامل طاقتها يا نور الدين!");
     </script>
 </body>
 </html>
