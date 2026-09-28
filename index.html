@@ -29,67 +29,20 @@
             margin: 0;
         }
 
-        .header-btns {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn {
+        #admin-login-btn {
             background-color: transparent;
-            color: #d4af37;
-            border: 1px solid #d4af37;
-            padding: 8px 15px;
-            font-size: 14px;
+            color: #888;
+            border: 1px dashed #555;
+            padding: 6px 12px;
+            font-size: 13px;
             border-radius: 5px;
             cursor: pointer;
             transition: 0.3s;
-            font-family: 'Cairo', Tahoma, sans-serif;
         }
 
-        .btn:hover {
-            background-color: #d4af37;
-            color: #121212;
-        }
-
-        /* لوحة التحكم للمشرف */
-        .admin-panel {
-            display: none;
-            background-color: #1a1a1a;
-            border: 1px solid #d4af37;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
-        }
-
-        body.admin-mode .admin-panel {
-            display: block;
-        }
-
-        .admin-panel h3 {
+        #admin-login-btn:hover {
             color: #d4af37;
-            margin-top: 0;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #ccc;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            background-color: #222;
-            border: 1px solid #444;
-            color: #fff;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-family: 'Cairo', Tahoma, sans-serif;
+            border-color: #d4af37;
         }
 
         .gallery-container {
@@ -156,18 +109,10 @@
             cursor: pointer;
             font-weight: bold;
             transition: 0.3s;
-            font-family: 'Cairo', Tahoma, sans-serif;
         }
 
         .delete-btn:hover {
             background-color: #c9302c;
-        }
-
-        .loading {
-            text-align: center;
-            color: #d4af37;
-            font-size: 18px;
-            margin-top: 50px;
         }
     </style>
 </head>
@@ -175,221 +120,66 @@
 
     <header>
         <h1>معرض عطور صفاء الذهب</h1>
-        <div class="header-btns">
-            <button class="btn" id="admin-login-btn" onclick="toggleAdminMode()">دخول المشرفين</button>
-        </div>
+        <button id="admin-login-btn" onclick="openAdminMode()">دخول المشرفين</button>
     </header>
 
-    <!-- لوحة إضافة عطر جديد -->
-    <div class="admin-panel" id="admin-panel">
-        <h3>لوحة تحكم المشرف (إضافة عطر جديد)</h3>
-        <div class="form-group">
-            <label for="perfume-name">اسم العطر:</label>
-            <input type="text" id="perfume-name" placeholder="مثال: عطر صفاء الذهب الملكي">
-        </div>
-        <div class="form-group">
-            <label for="perfume-image">صورة العطر:</label>
-            <input type="file" id="perfume-image" accept="image/*">
-        </div>
-        <button class="btn" onclick="addNewPerfume()" id="save-btn">حفظ وإضافة العطر للموقع</button>
-    </div>
-
     <main class="gallery-container" id="perfumes-container">
-        <div class="loading">جاري تحميل العطور...</div>
+        <!-- الكارت الأول -->
+        <div class="perfume-card" id="card-1">
+            <div class="image-box">
+                <img src="perfume8.jpg" alt="عطر صفاء الذهب (8)" onerror="this.src='https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=300&auto=format&fit=crop&q=60'">
+            </div>
+            <div class="perfume-title">عطر صفاء الذهب (8)</div>
+            <div class="admin-controls">
+                <button class="delete-btn" onclick="removeCard('card-1')">حذف العطر</button>
+            </div>
+        </div>
+
+        <!-- الكارت الثاني -->
+        <div class="perfume-card" id="card-2">
+            <div class="image-box">
+                <img src="perfume9.jpg" alt="عطر صفاء الذهب (9)" onerror="this.src='https://images.unsplash.com/photo-1594035910387-fea47794261f?w=300&auto=format&fit=crop&q=60'">
+            </div>
+            <div class="perfume-title">عطر صفاء الذهب (9)</div>
+            <div class="admin-controls">
+                <button class="delete-btn" onclick="removeCard('card-2')">حذف العطر</button>
+            </div>
+        </div>
+
+        <!-- الكارت الثالث -->
+        <div class="perfume-card" id="card-3">
+            <div class="image-box">
+                <img src="perfume10.jpg" alt="عطر صفاء الذهب (10)" onerror="this.src='https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=300&auto=format&fit=crop&q=60'">
+            </div>
+            <div class="perfume-title">عطر صفاء الذهب (10)</div>
+            <div class="admin-controls">
+                <button class="delete-btn" onclick="removeCard('card-3')">حذف العطر</button>
+            </div>
+        </div>
     </main>
 
     <script>
-        const GITHUB_USERNAME = "mrlight4321"; 
-        const REPO_NAME = "sfaa-el-Dhahab";         
-        const DATA_FILE_PATH = "perfumes.json";          
-        const GITHUB_TOKEN = "ضع_التوكن_هنا_بين_العلامتين"; // ضع التوكن الخاص بك هنا
-        const ADMIN_PASSWORD = "اشراف صفاء الدهب";         
+        const ADMIN_PASSWORD = "اشراف صفاء الدهب";
 
-        let perfumes = [];
-
-        // التحقق من وضع المشرف
-        function toggleAdminMode() {
-            if (document.body.classList.contains('admin-mode')) {
-                document.body.classList.remove('admin-mode');
-                document.getElementById('admin-login-btn').textContent = "دخول المشرفين";
-            } else {
-                let pass = prompt("الرجاء إدخال كلمة مرور المشرف:");
-                if (pass === ADMIN_PASSWORD) {
-                    document.body.classList.add('admin-mode');
-                    document.getElementById('admin-login-btn').textContent = "إخفاء لوحة التحكم";
-                    alert("تم تفعيل وضع الإشراف بنجاح.");
-                } else if (pass !== null) {
-                    alert("كلمة المرور غير صحيحة!");
-                }
+        function openAdminMode() {
+            let pass = prompt("الرجاء إدخال كلمة مرور المشرف:");
+            if (pass === ADMIN_PASSWORD) {
+                document.body.classList.add('admin-mode');
+                document.getElementById('admin-login-btn').textContent = "وضع الإشراف مفعل";
+                document.getElementById('admin-login-btn').style.color = "#d4af37";
+                document.getElementById('admin-login-btn').style.borderColor = "#d4af37";
+                alert("تم تسجيل الدخول بنجاح.");
+            } else if (pass !== null) {
+                alert("كلمة المرور غير صحيحة!");
             }
         }
 
-        // جلب العطور من ملف perfumes.json عند فتح الموقع
-        async function loadPerfumes() {
-            const container = document.getElementById('perfumes-container');
-            try {
-                let res = await fetch(`https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${DATA_FILE_PATH}?t=` + new Date().getTime());
-                if (res.ok) {
-                    perfumes = await res.json();
-                } else {
-                    perfumes = []; // إذا لم يكن الملف موجوداً نبدأ بمصفوفة فارغة
-                }
-                renderPerfumes();
-            } catch (err) {
-                console.error(err);
-                container.innerHTML = '<div class="loading">خطأ في جلب بيانات العطور. تأكد من وجود ملف perfumes.json</div>';
+        function removeCard(cardId) {
+            if (confirm('هل أنت متأكد من حذف هذا العطر؟')) {
+                document.getElementById(cardId).style.display = 'none';
+                alert('تم الحذف من الشاشة. لتثبيته نهائياً للزوار، قم بحذف الكارت الخاص به من ملف index.html في جيت هب.');
             }
         }
-
-        // عرض العطور على الشاشة
-        function renderPerfumes() {
-            const container = document.getElementById('perfumes-container');
-            if (perfumes.length === 0) {
-                container.innerHTML = '<div class="loading">لا توجد عطور متاحة حالياً في المعرض.</div>';
-                return;
-            }
-
-            let html = '';
-            perfumes.forEach(p => {
-                html += `
-                    <div class="perfume-card" data-id="${p.id}">
-                        <div class="image-box">
-                            <img src="${p.image}" alt="${p.title}" onerror="this.src='https://via.placeholder.com/250x300?text=Perfume'">
-                        </div>
-                        <div class="perfume-title">${p.title}</div>
-                        <div class="admin-controls">
-                            <button class="delete-btn" onclick="deletePerfume(${p.id})">حذف العطر</button>
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        // تحويل الصورة المرفوعة إلى Base64 لرفعها لجيت هب تلقائياً
-        function getBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result.split(',')[1]);
-                reader.onerror = error => reject(error);
-            });
-        }
-
-        // إضافة عطر جديد ورفع صورته تلقائياً وتحديث ملف JSON على جيت هب
-        async function addNewPerfume() {
-            const nameInput = document.getElementById('perfume-name');
-            const imageInput = document.getElementById('perfume-image');
-            const saveBtn = document.getElementById('save-btn');
-
-            if (!nameInput.value.trim() || imageInput.files.length === 0) {
-                alert('الرجاء إدخال اسم العطر واختيار صورة له!');
-                return;
-            }
-
-            saveBtn.textContent = "جاري الرفع والحفظ...";
-            saveBtn.disabled = true;
-
-            try {
-                const file = imageInput.files[0];
-                const base64Image = await getBase64(file);
-                const imageName = "img_" + Date.now() + "_" + file.name.replace(/\s+/g, '_');
-
-                // 1. رفع الصورة إلى جيت هب
-                let imgRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${imageName}`, {
-                    method: "PUT",
-                    headers: {
-                        "Authorization": `token ${GITHUB_TOKEN}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        message: "Upload perfume image via admin panel",
-                        content: base64Image
-                    })
-                });
-
-                if (!imgRes.ok) throw new Error("فشل رفع الصورة إلى جيت هب");
-
-                // رابط الصورة المباشر
-                const imageUrl = imageName;
-
-                // إضافة العطر الجديد للقائمة
-                const newPerfume = {
-                    id: Date.now(),
-                    title: nameInput.value.trim(),
-                    image: imageUrl
-                };
-                perfumes.push(newPerfume);
-
-                // 2. تحديث ملف perfumes.json على جيت هب
-                await updateJsonFileOnGitHub();
-
-                // إعادة تعيين الحقول
-                nameInput.value = "";
-                imageInput.value = "";
-                renderPerfumes();
-                alert("تم إضافة العطر بنجاح وتحديث المعرض للجميع!");
-
-            } catch (err) {
-                console.error(err);
-                alert("حدث خطأ أثناء الرفع. تأكد من صحة الـ Token.");
-            } finally {
-                saveBtn.textContent = "حفظ وإضافة العطر للموقع";
-                saveBtn.disabled = false;
-            }
-        }
-
-        // حذف عطر وتحديث ملف JSON على جيت هب
-        async function deletePerfume(id) {
-            if (!confirm('هل أنت متأكد من رغبتك في حذف هذا العطر نهائياً؟')) return;
-
-            perfumes = perfumes.filter(p => p.id !== id);
-
-            try {
-                await updateJsonFileOnGitHub();
-                renderPerfumes();
-                alert('تم حذف العطر بنجاح وتحديث المعرض للجميع!');
-            } catch (err) {
-                console.error(err);
-                alert('حدث خطأ أثناء الحذف.');
-            }
-        }
-
-        // دالة مساعدة لتحديث ملف perfumes.json على جيت هب (جلب الـ SHA ثم التحديث)
-        async function updateJsonFileOnGitHub() {
-            let sha = "";
-            let getRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${DATA_FILE_PATH}`, {
-                headers: { "Authorization": `token ${GITHUB_TOKEN}` }
-            });
-
-            if (getRes.ok) {
-                let fileData = await getRes.json();
-                sha = fileData.sha;
-            }
-
-            let jsonContent = encodeURIComponent(JSON.stringify(perfumes, null, 2))
-                .replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode('0x' + p1));
-            let base64Json = btoa(jsonContent);
-
-            let putRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${DATA_FILE_PATH}`, {
-                method: "PUT",
-                headers: {
-                    "Authorization": `token ${GITHUB_TOKEN}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    message: "Update perfumes list",
-                    content: base64Json,
-                    sha: sha ? sha : undefined
-                })
-            });
-
-            if (!putRes.ok) throw new Error("فشل تحديث ملف البيانات على جيت هب");
-        }
-
-        window.onload = function() {
-            loadPerfumes();
-        };
     </script>
 </body>
 </html>
